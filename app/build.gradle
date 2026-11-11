@@ -1,0 +1,6 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.jsconstrucoes.app'
+ compileSdk 35
+ defaultConfig { applicationId 'com.jsconstrucoes.app'; minSdk 24; targetSdk 28; versionCode 21; versionName '21.0' }
+}
