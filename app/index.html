@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172554">
+<title>JS Construções — Versão 21</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--bg:#f3f5f9;--card:#fff;--ink:#172033;--muted:#687386;--line:#e5e9f0;--green:#12805c;--red:#c24141;--gold:#f2b84b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
+header{background:var(--navy);color:white;padding:22px 18px 18px;position:sticky;top:0;z-index:5;box-shadow:0 3px 12px #101d4530}
+.head{max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:800;font-size:20px;letter-spacing:.3px}.sub{font-size:12px;color:#c7d2fe;margin-top:3px}
+main{max-width:850px;margin:18px auto;padding:0 14px 90px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #17255408}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.wrap{flex-wrap:wrap}
+button{border:0;border-radius:11px;padding:11px 14px;font-weight:700;font-size:14px;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#edf2ff;color:#1e40af}button.ghost{background:#f1f3f7;color:#334155}button.danger{background:#fff0f0;color:#b42318}
+button.small{padding:8px 10px;font-size:12px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d8deea;border-radius:10px;font:inherit;background:#fff;color:var(--ink);margin-top:5px}
+label{display:block;font-size:13px;font-weight:650;color:#465166;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.stat{background:#f7f9fc;border:1px solid var(--line);padding:11px;border-radius:12px;min-width:0}
+.stat b{display:block;font-size:17px;margin-top:3px;overflow-wrap:anywhere}.stat span{font-size:11px;color:var(--muted)}.negative{color:#b42318!important}.labor-limit{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f7f9fc}.labor-limit strong{font-size:18px}.labor-limit .muted{font-size:12px}.labor-balance{display:block;margin-top:8px;padding:10px 12px;border-radius:10px;font-size:18px;font-weight:850}.labor-balance.positive{color:#087443;background:#e6f7ed;border:1px solid #9bd8b4}.labor-balance.negative{color:#b42318;background:#fff0f0;border:1px solid #f2aaaa}.limit-warning{display:block;margin-top:7px;color:#b42318;font-size:12px;font-weight:850}
+.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+.home-hero{background:linear-gradient(135deg,#172554,#2446a3);color:#fff;border:0;padding:20px;overflow:hidden;position:relative}.home-hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff12;right:-65px;top:-75px}.hero-kicker{font-size:11px;letter-spacing:1.5px;font-weight:800;color:#c7d2fe}.hero-title{font-size:23px;font-weight:850;line-height:1.15;margin:8px 0}.hero-note{font-size:13px;color:#dbe5ff;max-width:250px}.hero-button{background:#fff;color:#172554;margin-top:16px;padding:13px 17px}.home-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}.metric-label{font-size:11px;color:var(--muted)}.metric-value{font-size:19px;font-weight:850;margin-top:5px;overflow-wrap:anywhere}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.home-search{margin:12px 0}.home-search input{margin:0}.job-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 14px;margin-top:10px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 2px 8px #1725540a;cursor:pointer;transition:transform .15s,box-shadow .15s}.job-card:active{transform:scale(.985);box-shadow:0 1px 4px #17255420}.job-name{font-weight:800;font-size:16px}.job-open{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#edf2ff;color:#1e40af;font-size:23px;font-weight:500}.status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:8px;background:#16a36a}.status-dot.pending{background:#e59a22}.item-title{font-weight:750}.money{font-weight:750;font-variant-numeric:tabular-nums}
+.hidden{display:none!important}.tag{font-size:11px;padding:4px 8px;border-radius:99px;background:#eef2ff;color:#3346a0}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px;margin:12px 0}
+.tabs button{white-space:nowrap}.tabs button.active{background:var(--navy);color:white}
+.empty{text-align:center;padding:25px 10px;color:var(--muted)}
+footer{max-width:850px;margin:auto;padding:0 16px 25px;color:var(--muted);font-size:11px;text-align:center}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#172033;color:#fff;padding:11px 16px;border-radius:12px;display:none;z-index:10;max-width:90%;box-shadow:0 5px 20px #0003}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.hero-title{font-size:21px}.metric-value{font-size:17px}.stats{grid-template-columns:repeat(3,1fr)}.stat b{font-size:14px}.panel{padding:14px}}
+@media print{header,.no-print,button{display:none!important}body{background:white}.panel{box-shadow:none;break-inside:avoid}main{max-width:none;margin:0;padding:0}}
+
+/* Visual versão 17: cartões e ações em cores, inspirado nas referências */
+:root{--navy:#050b20;--blue:#2563eb;--bg:#0e172a;--card:#1d2a3e;--ink:#f4f7ff;--muted:#a4b1c7;--line:#35445c;--green:#0c9b75;--gold:#f4a914}
+body{background:var(--bg);color:var(--ink)}header{background:#050a1c;box-shadow:0 5px 24px #0005;border-bottom:1px solid #29364c}
+.brand{font-size:21px}.brand:before{content:'JS';display:inline-grid;place-items:center;background:#f4a914;color:#061124;border-radius:12px;width:44px;height:44px;margin-right:12px;font-size:19px;box-shadow:0 4px 14px #f4a91430}
+.sub{color:#a6b2c9}.panel,.metric,.stat,.job-card{background:var(--card);border-color:var(--line);box-shadow:0 5px 18px #0002}
+.panel{border-radius:22px}.home-hero{background:linear-gradient(135deg,#070d25,#16294b);border:1px solid #34445e}.hero-kicker{color:#fbbf24}.hero-button{background:#f5a914;color:#081126}.metric-value{color:#fbbf24}.job-open{background:#f5a914;color:#081126}
+button{background:#2563eb;color:white}button.secondary{background:#234eaa;color:#fff}button.ghost{background:#304056;color:#f0f4ff}button.danger{background:#693037;color:#ffe2e2}
+input,select,textarea{background:#111c2f;border-color:#45536a;color:#fff}input::placeholder,textarea::placeholder{color:#9aa7bc}label{color:#d4deef}
+.tag{background:#3e3119;color:#ffc64a}.tabs{padding:6px 0 9px}.tabs button{background:#26354d;color:#d4deef}.tabs button.active{background:#f5a914;color:#10192b}
+.stat{padding:16px 12px}.stat b{font-size:19px}.stat:nth-child(1) b{color:#60a5fa}.stat:nth-child(2) b{color:#d6dcea}.stat:nth-child(3) b{color:#fb923c}.stat:nth-child(4) b{color:#34d399}
+.item,.labor-limit{background:#152238;border-color:#39485f;color:#f2f6ff}.muted{color:var(--muted)}.money{color:#b9d7ff}
+.quick-actions{display:grid;gap:10px;margin:14px 0}.quick-actions button{width:100%;padding:16px;text-align:left;font-size:15px;border-radius:14px}.quick-actions .quick-daily{background:#079b73}.quick-actions .quick-material{background:#f0640a}.quick-actions .quick-worker{background:#2563eb}.quick-actions .quick-report{background:#36455c}
+.finance-chart{background:#162238;border:1px solid var(--line);border-radius:18px;padding:17px;margin-top:14px}.finance-chart h3{margin-bottom:14px}.donut{width:190px;height:190px;border-radius:50%;margin:12px auto;background:conic-gradient(#60a5fa 0 var(--labor-end),#fb923c var(--labor-end) var(--material-end),#10b981 var(--material-end) 100%);position:relative}.donut:after{content:'';position:absolute;inset:42px;background:#162238;border-radius:50%}.legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;font-size:12px;color:#d6e1f1}.legend span:before{content:'';display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--dot)}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat b{font-size:18px}.brand{font-size:17px}.brand:before{width:36px;height:36px}}
+@media print{body{background:white;color:black}.panel,.stat,.metric{background:white;color:black;border-color:#ddd}.finance-chart,.quick-actions{display:none!important}}
+.hero-brand{display:flex;align-items:center;justify-content:space-between;gap:12px}.hero-copy{flex:1;min-width:0}.hero-logo-wrap{width:105px;height:105px;flex:0 0 105px;border-radius:18px;background:#ffffff12;border:1px solid #ffffff35;display:grid;place-items:center;overflow:hidden}.hero-logo-wrap img{width:100%;height:100%;object-fit:contain}.hero-logo-wrap img[hidden]{display:none}.hero-logo-wrap #brandLogoFallback{font-size:38px;font-weight:900;color:#f5a914}.logo-picker{display:inline-block;padding:7px 10px;border-radius:9px;background:#ffffff20;color:#fff;cursor:pointer;font-size:12px;margin:12px 0 0}.worker-description-picker{margin:6px 0 2px}@media(max-width:390px){.hero-logo-wrap{width:80px;height:80px;flex-basis:80px}.hero-title{font-size:20px}}
+.editor-toolbar{display:flex;align-items:center;gap:12px}.panel-edit-item{display:flex;align-items:center;gap:8px;padding:9px 4px;border-bottom:1px solid var(--line)}.panel-edit-item label{flex:1;margin:0;font-size:13px}.panel-edit-item input{width:auto;margin:0}.drag-handle{font-size:22px;cursor:grab;touch-action:none}.panel-editing{outline:2px dashed var(--panel-accent,#f5a914);outline-offset:-2px}.hero-button{background:var(--panel-accent,#f5a914)!important}.editor-toolbar button{background:var(--panel-accent,#f5a914);color:#111827}.panel-edit-item button:disabled{opacity:.3}
+</style>
+</head>
+<body>
+<header><div class="head"><div><div class="brand">JS CONSTRUÇÕES</div><div class="sub">Controle de obras • versão 21 • funciona offline</div></div><span class="tag">MEU CONTROLE</span></div></header>
+<main>
+<section id="home">
+ <div class="panel no-print editor-toolbar"><button id="editPanelBtn" onclick="togglePanelEditor()">✎ Editar painel</button><span class="muted">Personalize a tela inicial</span></div>
+ <div id="panelEditor" class="panel hidden no-print"><h3>Personalizar painel</h3><p class="muted">Arraste os blocos pelo símbolo ☰ ou use as setas para mudar a ordem. Oculte o que não quiser mostrar.</p><div id="panelEditorItems"></div><label>Cor de destaque <input type="color" id="panelAccent" value="#f5a914" onchange="setPanelAccent(this.value)"></label><div class="row wrap"><button onclick="savePanelLayout()">Salvar alterações</button><button class="secondary" onclick="resetPanelLayout()">Restaurar padrão</button><button class="ghost" onclick="togglePanelEditor()">Fechar</button></div></div>
+ <div id="editableDashboard">
+ <div class="panel home-hero" data-panel-block="intro">
+  <div class="hero-brand"><div class="hero-copy"><div class="hero-kicker">PAINEL DE CONTROLE</div>
+  <div class="hero-title">Sua gestão de obras,<br>mais simples.</div>
+  <div class="hero-note">Acompanhe serviços, equipe e valores em um só lugar.</div></div><div class="hero-logo-wrap"><img id="brandLogo" alt="Logomarca JS Construções" hidden><div id="brandLogoFallback">JS</div></div></div><label class="logo-picker">Alterar logomarca <input type="file" id="logoUpload" accept="image/*" onchange="setBrandLogo(this)" hidden></label>
+  <button class="hero-button" onclick="showNewJob()">＋ Cadastrar nova obra</button>
+ </div>
+ <div class="home-metrics" data-panel-block="summary">
+  <div class="metric"><div class="metric-label">OBRAS CADASTRADAS</div><div class="metric-value" id="homeJobCount">0</div></div>
+  <div class="metric"><div class="metric-label">TOTAL LANÇADO</div><div class="metric-value" id="homeTotal">R$ 0,00</div></div>
+ </div>
+ <div class="panel" data-panel-block="jobs">
+  <div class="section-head"><div><h2>Minhas obras</h2><div class="muted">Pesquise e abra a obra diretamente.</div></div><button class="secondary small" onclick="showNewJob()">＋ Nova</button></div>
+  <div class="home-search"><input id="jobSearch" type="search" placeholder="Buscar obra pelo nome..." oninput="searchHomeJobs()"></div>
+  <div id="searchResults" class="hidden"></div>
+  <label>Obra ativa para ações rápidas e gráfico<select id="activeJobSelect" onchange="selectHomeJob(this.value)"></select></label>
+ </div>
+ <div class="panel no-print" data-panel-block="actions"><h3>⚡ Ações rápidas</h3><p class="muted">Selecione uma obra acima e escolha uma função.</p><div class="quick-actions"><button class="quick-daily" onclick="homeAction('daily')">＋ Lançar diária de trabalho</button><button class="quick-material" onclick="homeAction('materials')">▣ Lançar compra / material</button><button class="quick-worker" onclick="homeAction('workers')">♙ Cadastrar trabalhador</button><button class="quick-report" onclick="homeAction('report')">▤ Relatórios e compartilhamento</button></div></div>
+ <div id="financeChart" class="finance-chart" data-panel-block="chart"><h3>Composição dos gastos e orçamento</h3><div class="muted" id="chartJobName">Selecione uma obra.</div><div class="donut" id="budgetDonut"></div><div class="legend"><span style="--dot:#60a5fa">Mão de obra</span><span style="--dot:#fb923c">Materiais</span><span style="--dot:#10b981">Saldo disponível</span></div></div>
+
+ </div>
+</section>
+
+<section id="workerQuickScreen" class="hidden"><div class="panel"><div class="row between"><h2>Cadastrar trabalhador</h2><button class="secondary small" onclick="closeQuick('workers')">← Início</button></div><label>Selecionar obra<select id="workerQuickJob" onchange="changeQuickJob(this.value,'workers')"></select></label></div><div class="panel" id="workerQuickHost"></div></section>
+<section id="dailyQuickScreen" class="hidden"><div class="panel"><div class="row between"><h2>Lançar diária</h2><button class="secondary small" onclick="closeQuick('daily')">← Início</button></div><label>Selecionar obra<select id="dailyQuickJob" onchange="changeQuickJob(this.value,'daily')"></select></label></div><div class="panel" id="dailyQuickHost"></div></section>
+<section id="materialQuickScreen" class="hidden">
+ <div class="panel no-print">
+  <div class="row between"><h2>Adicionar material</h2><button class="secondary small" onclick="closeMaterialQuick()">← Início</button></div>
+  <p class="muted">Preencha apenas os dados da compra e escolha a obra.</p>
+  <label>Selecionar obra<select id="materialQuickJob" onchange="selectMaterialQuickJob(this.value)" required></select></label>
+ </div>
+ <div id="materialQuickFormHost"></div>
+</section>
+<section id="jobScreen" class="hidden">
+ <div class="panel no-print"><div class="row between"><h3>Obras cadastradas</h3><button class="secondary small" onclick="goHome()">Início</button></div><div id="jobList"></div></div>
+ <div class="row between no-print" style="margin:4px 2px 12px"><button class="ghost" onclick="goHome()">← Obras</button><div class="row"><button class="ghost small" onclick="editJob()">Editar orçamento</button><button class="ghost small" onclick="editLaborBudget()">Limite mão de obra</button></div></div>
+ <div class="panel">
+  <div class="row between wrap"><div><div class="muted">OBRA SELECIONADA</div><h2 id="jobTitle"></h2><div class="muted" id="jobBudgetLabel"></div></div><span class="tag">HISTÓRICO INDIVIDUAL</span></div>
+  <div class="stats" id="jobStats"></div><div id="laborLimitCard"></div><div id="budgetHistory" class="muted" style="margin-top:10px"></div><button type="button" style="width:100%;margin-top:14px;padding:14px;font-size:15px" onclick="openDailyTab()">＋ Adicionar diária</button>
+ </div>
+ <div class="tabs no-print">
+  <button class="active" data-tab="overview" onclick="tab('overview',this)">Resumo</button>
+  <button data-tab="workers" onclick="tab('workers',this)">Trabalhadores</button>
+  <button data-tab="daily" onclick="tab('daily',this)">Diárias</button>
+  <button data-tab="costs" onclick="tab('costs',this)">Despesas e vales</button>
+  <button data-tab="materials" onclick="tab('materials',this)">Material da obra</button>
+  <button data-tab="fortnight" onclick="tab('fortnight',this)">Fechar Quinzena</button>
+  <button data-tab="report" onclick="tab('report',this)">Relatório</button>
+ </div>
+ <div id="tab-overview" class="panel"><h3>Últimos lançamentos</h3><div id="recentList"></div></div>
+ <div id="tab-workers" class="panel hidden">
+  <h3>Cadastrar trabalhador</h3>
+  <form id="workerForm" onsubmit="addWorker(event)">
+   <label>Nome<input id="workerName" required placeholder="Ex.: Lucas"></label>
+   <div class="grid"><label>Função<select id="workerRole"><option>Pedreiro</option><option>Ajudante</option><option>Outra função</option></select></label><label>Valor da diária (R$)<input id="workerRate" type="number" min="0" step="0.01" required placeholder="160,00"></label></div>
+   <button type="submit">Salvar trabalhador</button>
+  </form><hr><h3>Trabalhadores cadastrados</h3><div id="workerList"></div>
+ </div>
+ <div id="tab-daily" class="panel hidden">
+  <h3>Lançar diárias</h3>
+  <form id="dailyForm" onsubmit="addDaily(event)">
+   <label>Tipo de lançamento<select id="dailyMode" onchange="toggleDailyMode()"><option value="single">Uma data</option><option value="multiple">Várias diárias / período</option></select></label>
+   <label>Trabalhador<select id="dailyWorker" required></select></label>
+   <div class="grid"><label>Quantidade de diárias<input id="dailyQty" type="number" min="0.1" step="0.1" required placeholder="Ex.: 4"></label><label>Data inicial<input id="dailyDate" type="date" required><button type="button" class="secondary small" onclick="document.getElementById('dailyDate').value=today();document.getElementById('dailyEndDate').value=today();toast('Data de hoje selecionada.')">Hoje</button></label></div>
+   <div id="multiDateWrap" class="hidden"><label>Data final<input id="dailyEndDate" type="date"></label><div class="muted">O lançamento ficará registrado como um total de diárias dentro desse período.</div></div>
+   <label>Valor por diária (R$)<input id="dailyRateOverride" type="number" min="0" step="0.01" placeholder="Usar valor cadastrado"></label>
+   <label>Observação (opcional)<input id="dailyNote" placeholder="Ex.: serviço de reboco"></label>
+   <div class="muted" id="dailyPreview">O total será calculado pelo valor cadastrado.</div><br><button type="submit">Registrar diárias</button>
+  </form><hr><h3>Diárias lançadas</h3><div id="dailyList"></div>
+ </div>
+ <div id="tab-costs" class="panel hidden">
+  <h3>Registrar despesa ou vale</h3>
+  <form id="costForm" onsubmit="addCost(event)">
+   <div class="grid"><label>Tipo<select id="costType"><option value="Despesa">Despesa</option><option value="Vale / adiantamento">Vale / adiantamento</option><option value="Pagamento">Pagamento</option><option value="Material">Material</option></select></label><label>Valor (R$)<input id="costValue" type="number" min="0.01" step="0.01" required placeholder="0,00"></label></div>
+   <label>Descrição<select id="costWorkerChoice" class="worker-description-picker" onchange="insertWorkerInDescription(this.value)"><option value="">Escolher trabalhador cadastrado (opcional)</option></select><input id="costDesc" required placeholder="Selecione um trabalhador ou escreva a descrição"></label>
+   <label>Data<input id="costDate" type="date" required></label>
+   <button type="submit">Salvar lançamento</button>
+  </form><hr><h3>Despesas, vales e pagamentos</h3><div id="costList"></div>
+ </div>
+ <div id="tab-materials" class="panel hidden">
+  <h3>Material da obra</h3><p class="muted">Organize as compras por fases da obra.</p>
+  <form id="materialForm" onsubmit="addMaterial(event)">
+   <label>Material ou descrição<select id="matNameMode" onchange="toggleMaterialName()"><option value="name">Digitar nome do material</option><option value="various">Diversos</option></select></label>
+   <label id="matNameWrap">Nome do material<input id="matName" placeholder="Ex.: cimento, tijolo, fio 2,5 mm"></label>
+   <label id="matVariousWrap" class="hidden">Detalhes dos materiais diversos (opcional)<input id="matVarious" placeholder="Ex.: areia, cimento e pregos"></label>
+   <div class="grid"><label>Fases da obra<select id="matPhase"><option>Fundação</option><option>Baldrame</option><option>Alvenaria</option><option>Acabamento</option><option>Cobertura</option><option>Pintura</option><option>Elétrica</option></select></label></div>
+   <label>Forma de lançamento<select id="matMode" onchange="toggleMaterialMode()"><option value="quantity">Quantidade e preço unitário</option><option value="invoice">Valor total da nota</option></select></label>
+   <div class="grid"><label id="matQtyWrap">Quantidade (opcional)<input id="matQty" type="number" min="0.001" step="any"></label><label>Unidade (opcional)<select id="matUnit"><option value="">Não informar</option><option>unidade</option><option>saco</option><option>metro</option><option>m²</option><option>m³</option><option>kg</option><option>litro</option><option>caixa</option><option>carrada</option><option>outro</option></select></label></div>
+   <div class="grid"><label id="matPriceWrap">Preço unitário (R$)<input id="matPrice" type="number" min="0" step="0.01"></label><label id="matInvoiceWrap" class="hidden">Valor total da nota (R$)<input id="matInvoice" type="number" min="0.01" step="0.01"></label></div>
+   <label>Data<input id="matDate" type="date" required></label>
+   <div class="muted" id="matPreview">Total: R$ 0,00</div><br><button type="submit">＋ Adicionar material</button>
+  </form><hr><div class="row between wrap"><h3>Materiais cadastrados</h3><b id="matTotal">R$ 0,00</b></div><div id="materialList"></div>
+ </div>
+ <div id="tab-fortnight" class="panel hidden">
+  <h3>Fechamento de quinzena</h3>
+  <div class="muted">Escolha o período para reunir as diárias lançadas nesta obra e gerar um resumo por trabalhador.</div>
+  <div class="grid"><label>Data inicial<input id="fortnightStart" type="date"></label><label>Data final<input id="fortnightEnd" type="date"></label></div>
+  <button type="button" onclick="closeFortnight()">Gerar fechamento da quinzena</button>
+  <div id="fortnightReport"></div>
+ </div>
+ <div id="tab-report" class="panel hidden">
+  <div class="row between wrap"><div><h3>Relatório da obra</h3><div class="muted">Resumo atualizado dos lançamentos registrados.</div></div><div class="row no-print"><button class="secondary small" onclick="shareReport()">Compartilhar</button><button class="small" onclick="printReport()">Salvar PDF</button></div></div>
+  <div id="reportContent"></div>
+ </div>
+</section>
+<section id="newJobModal" class="panel hidden">
+ <div class="row between"><h2>Nova obra</h2><button class="ghost small" onclick="hideNewJob()">Fechar</button></div>
+ <form id="jobForm" onsubmit="addJob(event)">
+  <label>Nome da obra<input id="jobName" required placeholder="Ex.: Obra da Capela"></label>
+  <label>Cliente (opcional)<input id="jobClient" placeholder="Nome do cliente"></label>
+  <label>Orçamento geral (opcional, R$)<input id="jobBudget" type="number" min="0" step="0.01" placeholder="Ex.: 20000"></label>
+   <label>Limite de mão de obra (opcional, R$)<input id="jobLaborBudget" type="number" min="0" step="0.01" placeholder="Ex.: 5000"></label>
+  <button type="submit">Criar obra</button>
+ </form>
+</section>
+
+<section id="shareModal" class="panel hidden no-print" role="dialog" aria-modal="true" aria-label="Compartilhar Relatório" style="position:fixed;inset:12px;z-index:30;max-width:560px;margin:auto;overflow:auto;box-shadow:0 0 0 100vmax #0f172a99,0 12px 40px #0004">
+ <div class="row between"><h2>Compartilhar Relatório</h2><button class="ghost small" onclick="closeShareOptions()">Fechar</button></div>
+ <p class="muted">Marque uma ou várias opções para reunir no mesmo comprovante.</p>
+ <label><input type="checkbox" class="share-check" value="labor" checked style="width:auto;margin-right:8px">Relatório da Quinzena — Mão de Obra</label>
+ <label><input type="checkbox" class="share-check" value="material" style="width:auto;margin-right:8px">Relatório de Material — Geral (todos os salvos)</label>
+ <label><input type="checkbox" class="share-check" value="materialPeriod" style="width:auto;margin-right:8px">Relatório de Material da Quinzena</label>
+ <label><input type="checkbox" class="share-check" value="complete" style="width:auto;margin-right:8px">Relatório Completo — Tudo Junto</label>
+ <p class="muted">As opções da quinzena usam o período salvo abaixo. Você pode ajustá-lo sem alterar os lançamentos.</p>
+ <div class="grid"><label>Início da quinzena<input type="date" id="shareStart"></label><label>Fim da quinzena<input type="date" id="shareEnd"></label></div>
+ <div class="row wrap"><button onclick="sendSelectedReport()">Compartilhar selecionados</button><button class="secondary" onclick="closeShareOptions()">Cancelar</button></div>
+</section>
+</main>
+<footer>JS Construções • Versão 21 — Os dados ficam salvos neste aparelho e neste navegador. Faça cópias de segurança regularmente.</footer>
+<div id="toast"></div>
+<script>
+const KEY='js_construcoes_offline_v1';
+let db=load(), current=null, homeSelected=null;db.jobs.forEach(j=>{j.materials=j.materials||[];if(j.laborBudgetLinked===undefined){j.laborBudget=j.budget??null;j.laborBudgetLinked=true;}});
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{jobs:[]}}catch(e){return {jobs:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function money(n){return (Number(n)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function today(){return new Date().toLocaleDateString('en-CA')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2400)}
+function totals(j){let labor=j.daily.reduce((a,x)=>a+x.total,0),other=j.costs.reduce((a,x)=>a+x.value,0),materials=(j.materials||[]).reduce((a,x)=>a+x.total,0);return {labor,other,materials,total:labor+other+materials,balance:j.budget==null?null:j.budget-labor-other-materials}}
+function showNewJob(){document.getElementById('newJobModal').classList.remove('hidden');document.getElementById('jobName').focus()}
+function hideNewJob(){document.getElementById('newJobModal').classList.add('hidden')}
+function addJob(e){e.preventDefault();let name=document.getElementById('jobName').value.trim();if(!name)return;let b=document.getElementById('jobBudget').value;let j={id:Date.now(),name,client:document.getElementById('jobClient').value.trim(),budget:b===''?null:Number(b),laborBudget:document.getElementById('jobLaborBudget').value===''?(b===''?null:Number(b)):Number(document.getElementById('jobLaborBudget').value),laborBudgetLinked:document.getElementById('jobLaborBudget').value==='',workers:[],daily:[],costs:[],materials:[]};db.jobs.push(j);save();e.target.reset();hideNewJob();render();openJob(j.id);toast('Obra criada!')}
+function render(){
+ let count=document.getElementById('homeJobCount'),total=document.getElementById('homeTotal'),list=document.getElementById('jobList');
+ if(count)count.textContent=db.jobs.length;
+ if(total)total.textContent=money(db.jobs.reduce((sum,j)=>sum+totals(j).total,0));
+ let q='';
+ let jobs=db.jobs.filter(j=>j.name.toLowerCase().includes(q));
+ list.innerHTML=jobs.length?jobs.map(j=>{let t=totals(j),pending=j.daily.length>0||j.costs.length>0||(j.materials||[]).length>0;return `<div class="job-card" role="button" tabindex="0" onclick="openJob(${j.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openJob(${j.id})}"><div style="min-width:0;flex:1"><div class="row" style="min-width:0"><span class="status-dot ${pending?'pending':''}"></span><div class="job-name">${esc(j.name)}</div></div><div class="muted" style="margin:6px 0 0 17px">${j.budget==null?'Orçamento não informado':'Orçamento: '+money(j.budget)} · Lançado: ${money(t.total)}</div></div><span class="job-open">›</span></div>`}).join(''):'<div class="empty">'+(q?'Nenhuma obra encontrada com esse nome.':'Nenhuma obra cadastrada ainda.<br>Toque em “Nova obra” para começar.')+'</div>';
+
+ let selector=document.getElementById('activeJobSelect');if(selector){if(!db.jobs.some(j=>j.id===homeSelected))homeSelected=db.jobs[0]?.id??null;selector.innerHTML=db.jobs.length?db.jobs.map(j=>`<option value="${j.id}">${esc(j.name)}</option>`).join(''):'<option value="">Nenhuma obra cadastrada</option>';selector.value=homeSelected??'';renderHomeChart();}
+}
+function selectHomeJob(id){homeSelected=Number(id);renderHomeChart()}
+function renderHomeChart(){let chart=document.getElementById('financeChart'),j=db.jobs.find(x=>x.id===homeSelected);document.getElementById('chartJobName').textContent=j?'Obra: '+j.name:'Cadastre ou selecione uma obra';if(!j){chart.querySelector('.donut').style.background='conic-gradient(#334155 0 100%)';return;}let t=totals(j),base=Math.max(j.budget||0,t.total,1),a=Math.min(100,t.labor/base*100),b=Math.min(100,(t.labor+t.materials)/base*100);let d=document.getElementById('budgetDonut');d.style.background='';d.style.setProperty('--labor-end',a+'%');d.style.setProperty('--material-end',b+'%')}
+function homeAction(name){if(name==='materials'){openMaterialQuick();return;}if(name==='workers'||name==='daily'){openQuick(name);return;}let j=db.jobs.find(x=>x.id===homeSelected);if(!j)return toast('Cadastre ou selecione uma obra primeiro.');openJob(j.id);tab(name,document.querySelector(`[data-tab="${name}"]`));if(name==='report')openShareOptions()}
+function openQuick(type){
+ if(!db.jobs.length)return toast('Cadastre uma obra primeiro.');
+ if(!db.jobs.some(j=>j.id===homeSelected))homeSelected=db.jobs[0].id;
+ let selector=document.getElementById(type==='workers'?'workerQuickJob':'dailyQuickJob');
+ selector.innerHTML=db.jobs.map(j=>`<option value="${j.id}">${esc(j.name)}</option>`).join('');
+ selector.value=homeSelected;current=homeSelected;
+ document.getElementById('home').classList.add('hidden');
+ document.getElementById('jobScreen').classList.add('hidden');
+ document.getElementById(type==='workers'?'workerQuickScreen':'dailyQuickScreen').classList.remove('hidden');
+ document.getElementById(type==='workers'?'workerQuickHost':'dailyQuickHost').appendChild(document.getElementById(type==='workers'?'workerForm':'dailyForm'));
+ if(type==='daily'){renderJob();document.getElementById('dailyDate').value ||= today();}
+ window.scrollTo(0,0);
+}
+function changeQuickJob(id,type){homeSelected=Number(id);current=homeSelected;if(type==='daily')renderJob();}
+function closeQuick(type){
+ let tabEl=document.getElementById(type==='workers'?'tab-workers':'tab-daily');
+ tabEl.insertBefore(document.getElementById(type==='workers'?'workerForm':'dailyForm'),tabEl.querySelector('hr'));
+ document.getElementById(type==='workers'?'workerQuickScreen':'dailyQuickScreen').classList.add('hidden');
+ goHome();
+}
+function toggleMaterialName(){
+ let various=document.getElementById('matNameMode').value==='various';
+ document.getElementById('matNameWrap').classList.toggle('hidden',various);
+ document.getElementById('matVariousWrap').classList.toggle('hidden',!various);
+ document.getElementById('matName').required=!various;
+}
+function openMaterialQuick(){
+ if(!db.jobs.length)return toast('Cadastre uma obra antes de lançar materiais.');
+ let selector=document.getElementById('materialQuickJob');
+ if(!db.jobs.some(j=>j.id===homeSelected))homeSelected=db.jobs[0].id;
+ selector.innerHTML=db.jobs.map(j=>`<option value="${j.id}">${esc(j.name)}</option>`).join('');
+ selector.value=homeSelected;
+ current=homeSelected;
+ document.getElementById('home').classList.add('hidden');
+ document.getElementById('jobScreen').classList.add('hidden');
+ document.getElementById('materialQuickScreen').classList.remove('hidden');
+ document.getElementById('materialQuickFormHost').appendChild(document.getElementById('materialForm'));
+ document.getElementById('matDate').value=document.getElementById('matDate').value||today();
+ window.scrollTo(0,0);
+}
+function selectMaterialQuickJob(id){homeSelected=Number(id);current=homeSelected;}
+function closeMaterialQuick(){
+ document.getElementById('tab-materials').insertBefore(document.getElementById('materialForm'),document.getElementById('tab-materials').querySelector('hr'));
+ document.getElementById('materialQuickScreen').classList.add('hidden');
+ goHome();
+}
+function searchHomeJobs(){let input=document.getElementById('jobSearch'),q=input.value.trim().toLowerCase(),res=document.getElementById('searchResults');if(!q){res.classList.add('hidden');res.innerHTML='';return;}let matches=db.jobs.filter(j=>j.name.toLowerCase().includes(q));res.classList.remove('hidden');res.innerHTML=matches.length?matches.map(j=>`<button type="button" class="secondary" style="display:block;width:100%;text-align:left;margin:5px 0" onclick="openJob(${j.id})">${esc(j.name)}</button>`).join(''):'<div class="muted">Nenhuma obra encontrada.</div>';
+}
+function getJob(){return db.jobs.find(j=>j.id===current)}
+function openJob(id){current=id;homeSelected=id;document.getElementById('home').classList.add('hidden');document.getElementById('newJobModal').classList.add('hidden');document.getElementById('jobScreen').classList.remove('hidden');tab('overview',document.querySelector('[data-tab="overview"]'));renderJob()}
+function goHome(){current=null;document.getElementById('jobScreen').classList.add('hidden');document.getElementById('home').classList.remove('hidden');render()}
+function editJob(){let j=getJob();let b=prompt('Novo orçamento geral em reais (deixe vazio para remover):',j.budget??'');if(b===null)return;if(b.trim()!==''&&(!Number.isFinite(Number(b))||Number(b)<0))return toast('Informe um orçamento válido.');j.budgetHistory=j.budgetHistory||[];if(j.budget!==null&&j.budget!==undefined)j.budgetHistory.push({date:today(),value:j.budget});j.budget=b.trim()===''?null:Number(b);if(j.laborBudgetLinked!==false){j.laborBudget=j.budget;j.laborBudgetLinked=true;}save();renderJob();render();toast('Orçamento atualizado!')}
+function editLaborBudget(){let j=getJob(),v=prompt('Limite de mão de obra em reais. Digite VINCULAR para acompanhar automaticamente o orçamento da obra:',j.laborBudget??'');if(v===null)return;if(v.trim().toUpperCase()==='VINCULAR'){j.laborBudget=j.budget??null;j.laborBudgetLinked=true;}else{if(v.trim()===''||!Number.isFinite(Number(v))||Number(v)<0)return toast('Informe um limite válido ou digite VINCULAR.');j.laborBudget=Number(v);j.laborBudgetLinked=false;}save();renderJob();toast(j.laborBudgetLinked?'Limite vinculado ao orçamento.':'Limite manual salvo.')}
+function openDailyTab(){tab('daily',document.querySelector('[data-tab=\"daily\"]'));document.getElementById('dailyWorker').focus()}
+function tab(name,btn){['overview','workers','daily','costs','materials','fortnight','report'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('hidden',x!==name));document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b===btn));if(name==='report')buildReport()}
+function renderJob(){let j=getJob();if(!j)return goHome();updateCostWorkerChoices();let t=totals(j);document.getElementById('jobTitle').textContent=j.name;document.getElementById('jobBudgetLabel').textContent=j.budget==null?'Orçamento não informado':'Orçamento: '+money(j.budget);document.getElementById('jobStats').innerHTML=`<div class="stat"><span>Mão de obra</span><b>${money(t.labor)}</b></div><div class="stat"><span>Outros lançamentos</span><b>${money(t.other)}</b></div><div class="stat"><span>Materiais</span><b>${money(t.materials)}</b></div><div class="stat"><span>${t.balance===null?'Total lançado':'Saldo'}</span><b>${money(t.balance===null?t.total:t.balance)}</b></div>`;
+let laborCard=document.getElementById('laborLimitCard');if(j.laborBudget===null||j.laborBudget===undefined){laborCard.innerHTML='<div class="labor-limit"><b>Limite de mão de obra não definido</b><div class="muted">Toque em “Limite mão de obra” para cadastrar a verba reservada.</div></div>';}else{let remaining=j.laborBudget-t.labor;let over=remaining<0;laborCard.innerHTML=`<div class="labor-limit"><div class="row between"><b>Controle da mão de obra</b><span class="muted">Limite: ${money(j.laborBudget)}</span></div><div class="muted" style="margin-top:7px">Valor consumido: ${money(t.labor)}</div><div class="muted" style="margin-top:8px">${over?'Valor acima do limite:':'Saldo disponível:'}</div><strong class="labor-balance ${over?'negative':'positive'}">${over?'−':'+'} ${money(Math.abs(remaining))}</strong>${over?'<span class="limit-warning">⚠ LIMITE ULTRAPASSADO</span>':''}</div>`;}
+ document.getElementById('budgetHistory').innerHTML=j.budgetHistory&&j.budgetHistory.length?'<b>Histórico de orçamento:</b> '+[...j.budgetHistory].reverse().map(h=>money(h.value)+' ('+dateBR(h.date)+')').join(' • '):'';
+document.getElementById('workerList').innerHTML=j.workers.length?j.workers.map((w,i)=>`<div class="item row between"><div><b>${esc(w.name)}</b><div class="muted">${esc(w.role||'Trabalhador')} • ${money(w.rate)} por diária</div></div><div class="row"><button class="secondary small" onclick="editWorker(${i})">Editar valor</button><button class="danger small" onclick="removeWorker(${i})">Excluir</button></div></div>`).join(''):'<div class="empty">Nenhum trabalhador cadastrado.</div>';
+document.getElementById('dailyWorker').innerHTML='<option value="">Selecione</option>'+j.workers.map(w=>`<option value="${w.id}">${esc(w.name)}</option>`).join('');
+document.getElementById('dailyDate').value=today();document.getElementById('dailyEndDate').value=today();document.getElementById('fortnightStart').value=monthDay(1);document.getElementById('fortnightEnd').value=today();document.getElementById('costDate').value=today();document.getElementById('matDate').value=today();renderMaterials();
+document.getElementById('dailyPreview').textContent='Selecione um trabalhador e a quantidade para calcular o total.';
+document.getElementById('dailyList').innerHTML=j.daily.length?[...j.daily].reverse().map(x=>`<div class="item"><div class="row between"><div><b>${esc(x.workerName)}</b><div class="muted">${x.qty} diária(s) × ${money(x.rate)} • ${esc(x.startDate||x.date)}${x.endDate&&x.endDate!==x.date?' até '+esc(x.endDate):''}</div><div class="muted">${esc(x.note||'')}</div></div><b>${money(x.total)}</b></div><div class="row" style="margin-top:8px"><button class="secondary small" onclick="editDaily(${x.id})">Editar</button><button class="danger small" onclick="deleteDaily(${x.id})">Excluir</button></div></div>`).join(''):'<div class="empty">Nenhuma diária lançada.</div>';
+document.getElementById('costList').innerHTML=j.costs.length?[...j.costs].reverse().map(x=>`<div class="item row between"><div><b>${esc(x.type)} — ${esc(x.desc)}</b><div class="muted">${esc(x.date)}</div></div><b>${money(x.value)}</b></div>`).join(''):'<div class="empty">Nenhum lançamento registrado.</div>';
+let entries=[...j.daily.map(x=>({date:x.date,title:'Diárias: '+x.workerName,value:x.total})),...j.costs.map(x=>({date:x.date,title:x.type+': '+x.desc,value:x.value})),...(j.materials||[]).map(x=>({date:x.date,title:'Material: '+x.name,value:x.total}))].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
+document.getElementById('recentList').innerHTML=entries.length?entries.map(x=>`<div class="item row between"><div><b>${esc(x.title)}</b><div class="muted">${esc(x.date)}</div></div><b>${money(x.value)}</b></div>`).join(''):'<div class="empty">Os lançamentos recentes aparecerão aqui.</div>';
+}
+function addWorker(e){e.preventDefault();let j=getJob(),name=document.getElementById('workerName').value.trim(),rate=Number(document.getElementById('workerRate').value),role=document.getElementById('workerRole').value;if(!name||rate<0)return;j.workers.push({id:Date.now(),name,rate,role});save();e.target.reset();renderJob();toast('Trabalhador cadastrado!')}
+function editWorker(i){let w=getJob().workers[i],v=prompt('Novo valor da diária de '+w.name+':',w.rate);if(v===null)return;if(!Number.isFinite(Number(v))||Number(v)<0)return toast('Valor inválido.');w.rate=Number(v);save();renderJob();toast('Valor atualizado. Lançamentos antigos foram preservados.')}
+function removeWorker(i){let j=getJob();if(!confirm('Excluir este trabalhador do cadastro? Os lançamentos já feitos serão mantidos.'))return;j.workers.splice(i,1);save();renderJob()}
+function addDaily(e){e.preventDefault();let j=getJob(),w=j.workers.find(x=>x.id===Number(document.getElementById('dailyWorker').value)),qty=Number(document.getElementById('dailyQty').value),date=document.getElementById('dailyDate').value,end=document.getElementById('dailyMode').value==='multiple'?document.getElementById('dailyEndDate').value:date,override=document.getElementById('dailyRateOverride').value,rate=override.trim()===''?w?.rate:Number(override),note=document.getElementById('dailyNote').value.trim();if(!w||qty<=0||!date||!end||end<date||!Number.isFinite(rate)||rate<0)return toast('Confira trabalhador, datas, quantidade e valor.');if(!confirm(`Confirmar ${qty} diária(s) de ${w.name}, total ${money(qty*rate)}?`))return;j.daily.push({id:Date.now(),workerId:w.id,workerName:w.name,rate,qty,date,startDate:date,endDate:end,note,total:qty*rate});save();e.target.reset();renderJob();toast('Diárias registradas!')}
+function toggleDailyMode(){let multi=document.getElementById('dailyMode').value==='multiple';document.getElementById('multiDateWrap').classList.toggle('hidden',!multi);if(!multi)document.getElementById('dailyEndDate').value=document.getElementById('dailyDate').value}
+function editDaily(id){let j=getJob(),x=j.daily.find(a=>a.id===id);if(!x)return;let q=prompt('Quantidade de diárias:',x.qty);if(q===null)return;let r=prompt('Valor por diária:',x.rate);if(r===null)return;let d=prompt('Data inicial (AAAA-MM-DD):',x.startDate||x.date);if(d===null)return;let e=prompt('Data final (AAAA-MM-DD):',x.endDate||x.date);if(e===null)return;let n=prompt('Observação:',x.note||'');if(n===null)return;if(Number(q)<=0||Number(r)<0||!d||!e||e<d)return toast('Dados inválidos.');x.qty=Number(q);x.rate=Number(r);x.date=d;x.startDate=d;x.endDate=e;x.note=n;x.total=x.qty*x.rate;save();renderJob();toast('Lançamento atualizado.')}
+function deleteDaily(id){let j=getJob();if(!confirm('Excluir esta diária?'))return;j.daily=j.daily.filter(x=>x.id!==id);save();renderJob();toast('Lançamento excluído.')}
+function monthDay(day){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`}
+function fortnightData(){
+ let j=getJob(),a=document.getElementById('fortnightStart').value,b=document.getElementById('fortnightEnd').value;
+ let rows=j.daily.filter(x=>(x.startDate||x.date)>=a&&(x.startDate||x.date)<=b),groups={};
+ rows.forEach(x=>{let k=x.workerName;groups[k]=groups[k]||{qty:0,total:0};groups[k].qty+=Number(x.qty)||0;groups[k].total+=Number(x.total)||0});
+ return {j,a,b,rows,groups,total:rows.reduce((sum,x)=>sum+(Number(x.total)||0),0)};
+}
+function closeFortnight(){
+ let d=fortnightData(),{j,a,b,rows,groups,total}=d;
+ if(!a||!b||b<a)return toast('Confira o período da quinzena.');
+ let body=Object.entries(groups).map(([name,v])=>{let rate=v.qty?v.total/v.qty:0;return `<tr><td>${esc(name)}</td><td align="center">${v.qty}</td><td align="right">${money(rate)}</td><td align="right">${money(v.total)}</td></tr>`}).join('');
+ let html=`<div class="panel" id="fortnightPrintable"><h2>JS CONSTRUÇÕES — FECHAMENTO DE QUINZENA</h2><p><b>Obra:</b> ${esc(j.name)}<br><b>Período:</b> ${dateBR(a)} a ${dateBR(b)}</p><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr><th align="left">Trabalhador</th><th>Diárias</th><th>Valor da diária</th><th>Total</th></tr></thead><tbody>${body||'<tr><td colspan="4">Nenhuma diária neste período.</td></tr>'}</tbody></table><hr><h3>Total da quinzena: ${money(total)}</h3><p class="muted">Este fechamento não apaga nem altera os registros.</p><div class="row wrap no-print" style="margin-top:12px"><button type="button" onclick="shareFortnightWhatsApp()">Compartilhar no WhatsApp</button><button type="button" class="secondary" onclick="printFortnight()">Salvar PDF</button></div></div>`;
+ document.getElementById('fortnightReport').innerHTML=html;
+}
+function shareFortnightWhatsApp(){
+ let el=document.getElementById('fortnightPrintable');if(!el)return toast('Gere o fechamento da quinzena primeiro.');
+ let {j,a,b,rows,groups,total}=fortnightData();
+ let lines=Object.entries(groups).map(([name,v])=>`${name}\n${v.qty} diária(s) × ${money(v.qty?v.total/v.qty:0)} = ${money(v.total)}`);
+ let txt=`JS CONSTRUÇÕES\nFECHAMENTO DE QUINZENA\nObra: ${j.name}\nPeríodo: ${dateBR(a)} a ${dateBR(b)}\n\n${lines.length?lines.join('\n\n'):'Nenhuma diária registrada neste período.'}\n\nTOTAL DA QUINZENA: ${money(total)}\nTransformando projetos em realidade.`;
+ window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+function dateBR(v){return v.split('-').reverse().join('/')}
+function printFortnight(){let el=document.getElementById('fortnightPrintable');if(!el)return;let w=window.open('','_blank');w.document.write(`<html><head><title>Fechamento de quinzena</title><meta name="viewport" content="width=device-width, initial-scale=1"></head><body style="font-family:Arial;padding:20px">${el.innerHTML.replace(/<button[^>]*>[\s\S]*?<\/button>/,'')}</body></html>`);w.document.close();w.print()}
+function insertWorkerInDescription(name){if(!name)return;const input=document.getElementById('costDesc');const previous=input.value.trim();input.value=previous?previous.includes(name)?previous:name+' — '+previous:name;input.focus();}
+function updateCostWorkerChoices(){const el=document.getElementById('costWorkerChoice');if(!el)return;const j=getJob();const old=el.value;el.innerHTML='<option value="">Escolher trabalhador cadastrado (opcional)</option>'+(j?.workers||[]).map(w=>'<option value="'+esc(w.name)+'">'+esc(w.name)+'</option>').join('');if([...el.options].some(o=>o.value===old))el.value=old;}
+function setBrandLogo(input){const file=input.files&&input.files[0];if(!file)return;if(file.size>2500000){toast('Escolha uma imagem de até 2,5 MB.');return;}const reader=new FileReader();reader.onload=()=>{try{localStorage.setItem('js_construcoes_logo',reader.result);showBrandLogo();toast('Logomarca salva neste navegador!')}catch(e){toast('Imagem muito grande para salvar.')}};reader.readAsDataURL(file);}
+function showBrandLogo(){const data=localStorage.getItem('js_construcoes_logo');const img=document.getElementById('brandLogo');const fallback=document.getElementById('brandLogoFallback');if(data){img.src=data;img.hidden=false;fallback.hidden=true}else{img.hidden=true;fallback.hidden=false}}
+function addCost(e){e.preventDefault();let j=getJob(),value=Number(document.getElementById('costValue').value),desc=document.getElementById('costDesc').value.trim();if(value<=0||!desc)return;j.costs.push({id:Date.now(),type:document.getElementById('costType').value,value,desc,date:document.getElementById('costDate').value});save();e.target.reset();renderJob();toast('Lançamento salvo!')}
+
+function toggleMaterialMode(){let invoice=document.getElementById('matMode').value==='invoice';document.getElementById('matQtyWrap').classList.toggle('hidden',invoice);document.getElementById('matPriceWrap').classList.toggle('hidden',invoice);document.getElementById('matInvoiceWrap').classList.remove('hidden');document.getElementById('matQty').required=false;document.getElementById('matPrice').required=!invoice;document.getElementById('matInvoice').required=false;materialPreview()}
+function materialPreview(){let invoice=document.getElementById('matMode').value==='invoice',q=Number(document.getElementById('matQty').value),p=Number(document.getElementById('matPrice').value),v=Number(document.getElementById('matInvoice').value);document.getElementById('matPreview').textContent='Total: '+money(invoice||!q?v:q*p||v)}
+function addMaterial(e){
+ e.preventDefault();
+ if(!document.getElementById('materialQuickScreen').classList.contains('hidden'))current=Number(document.getElementById('materialQuickJob').value);
+ let j=getJob(),various=document.getElementById('matNameMode').value==='various',
+ name=various?'Diversos':document.getElementById('matName').value.trim(),
+ details=various?document.getElementById('matVarious').value.trim():'',
+ invoice=document.getElementById('matMode').value==='invoice',
+ qtyText=document.getElementById('matQty').value.trim(),
+ qty=invoice||!qtyText?null:Number(qtyText),
+ priceText=document.getElementById('matPrice').value.trim(),
+ price=invoice||!priceText?null:Number(priceText),
+ enteredTotal=Number(document.getElementById('matInvoice').value),
+ total=invoice||qty===null||price===null?enteredTotal:qty*price,
+ date=document.getElementById('matDate').value;
+ if(!j||!name||!date||!Number.isFinite(total)||total<=0||(qty!==null&&(!Number.isFinite(qty)||qty<=0)))return toast('Informe obra, material, data e valor total válido.');
+ j.materials=j.materials||[];
+ j.materials.push({id:Date.now(),name,details,category:'',phase:document.getElementById('matPhase').value,mode:invoice||qty===null?'invoice':'quantity',qty,unit:document.getElementById('matUnit').value,price,total,date});
+ save();e.target.reset();document.getElementById('matDate').value=today();toggleMaterialName();toggleMaterialMode();renderJob();toast('Material registrado!');
+}
+function renderMaterials(){let j=getJob();if(!j)return;let list=document.getElementById('materialList'),items=j.materials||[];document.getElementById('matTotal').textContent=money(items.reduce((s,x)=>s+x.total,0));list.innerHTML=items.length?[...items].reverse().map(x=>`<div class="item"><div class="row between"><div><b>${esc(x.name)}</b><div class="muted">${esc(x.phase)} • ${esc(x.date)}${x.details?' • '+esc(x.details):''}</div><div class="muted">${x.qty==null?'Valor total da nota':x.qty+' '+esc(x.unit||'')+' × '+money(x.price)}</div></div><b>${money(x.total)}</b></div><div class="row" style="margin-top:9px"><button class="secondary small" onclick="editMaterial(${x.id})">Editar</button><button class="danger small" onclick="deleteMaterial(${x.id})">Excluir</button></div></div>`).join(''):'<div class="empty">Nenhum material registrado. Cadastre acima por fase da obra.</div>'}
+function editMaterial(id){let j=getJob(),x=(j.materials||[]).find(x=>x.id===id);if(!x)return;let name=prompt('Material:',x.name);if(name===null)return;let q=prompt(x.mode==='invoice'?'Valor total da nota (R$):':'Quantidade:',x.mode==='invoice'?x.total:x.qty);if(q===null)return;let p=x.mode==='invoice'?'1':prompt('Preço unitário (R$):',x.price);if(p===null)return;let phase=prompt('Fase da obra:',x.phase);if(phase===null)return;if(!name.trim()||Number(q)<=0||Number(p)<0||!Number.isFinite(Number(q))||!Number.isFinite(Number(p)))return toast('Dados inválidos.');Object.assign(x,{name:name.trim(),qty:x.mode==='invoice'?null:Number(q),price:x.mode==='invoice'?null:Number(p),phase:phase.trim()||x.phase,total:x.mode==='invoice'?Number(q):Number(q)*Number(p)});save();renderJob();toast('Material atualizado!')}
+function deleteMaterial(id){if(!confirm('Excluir este material?'))return;let j=getJob();j.materials=(j.materials||[]).filter(x=>x.id!==id);save();renderJob();toast('Material excluído.')}
+function buildReport(){let j=getJob(),t=totals(j);let workers=j.daily.map(x=>`<tr><td>${esc(x.workerName)}</td><td>${x.qty}</td><td>${money(x.rate)}</td><td>${money(x.total)}</td></tr>`).join('');let costs=j.costs.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)} — ${esc(x.desc)}</td><td>${money(x.value)}</td></tr>`).join('');let materials=(j.materials||[]).map(x=>`<tr><td>${esc(x.phase)}</td><td>${esc(x.name)}${x.details?' — '+esc(x.details):''}</td><td>${x.mode==='invoice'?'Nota fiscal':x.qty+' '+esc(x.unit||'')}</td><td>${money(x.total)}</td></tr>`).join('');document.getElementById('reportContent').innerHTML=`<hr><h2>JS CONSTRUÇÕES</h2><h3>RELATÓRIO DA OBRA</h3><p><b>Obra:</b> ${esc(j.name)}<br><b>Data:</b> ${new Date().toLocaleDateString('pt-BR')}${j.client?'<br><b>Cliente:</b> '+esc(j.client):''}</p><h3>Mão de obra</h3><table style="width:100%;border-collapse:collapse;font-size:13px"><tr><th align="left">Trabalhador</th><th>Diárias</th><th>Valor/dia</th><th>Total</th></tr>${workers||'<tr><td colspan="4">Sem diárias.</td></tr>'}</table><h3 style="margin-top:18px">Materiais por fases da obra</h3><table style="width:100%;border-collapse:collapse;font-size:13px"><tr><th align="left">Fase</th><th align="left">Material</th><th>Qtd.</th><th>Total</th></tr>${materials||'<tr><td colspan="4">Sem materiais.</td></tr>'}</table><h3 style="margin-top:18px">Outros lançamentos</h3><table style="width:100%;border-collapse:collapse;font-size:13px"><tr><th align="left">Data</th><th align="left">Descrição</th><th>Total</th></tr>${costs||'<tr><td colspan="3">Sem lançamentos.</td></tr>'}</table><hr><div class="item row between"><b>Mão de obra</b><b>${money(t.labor)}</b></div><div class="item row between"><b>Materiais</b><b>${money(t.materials)}</b></div><div class="item row between"><b>Outros lançamentos</b><b>${money(t.other)}</b></div><div class="item row between"><b>TOTAL LANÇADO</b><b>${money(t.total)}</b></div>${j.budget==null?'':`<div class="item row between"><b>Orçamento geral</b><b>${money(j.budget)}</b></div><div class="item row between"><b>Saldo geral</b><b>${money(t.balance)}</b></div>`}${j.laborBudget==null?'':`<div class="item row between"><b>Limite de mão de obra (${j.laborBudgetLinked?'vinculado':'manual'})</b><b>${money(j.laborBudget)}</b></div><div class="item row between"><b>Saldo de mão de obra</b><b>${money(j.laborBudget-t.labor)}</b></div>`}<p class="muted" style="margin-top:22px;text-align:center">Transformando projetos em realidade.</p>`}
+function printReport(){buildReport();window.print()}
+function shareReport(){openShareOptions()}
+function openShareOptions(){
+ let j=getJob();if(!j)return;
+ let dates=[...j.daily.map(x=>x.startDate||x.date),...(j.materials||[]).map(x=>x.date)].filter(Boolean).sort();
+ let start=document.getElementById('shareStart'),end=document.getElementById('shareEnd');
+ start.value=document.getElementById('fortnightStart').value||dates[0]||today();
+ end.value=document.getElementById('fortnightEnd').value||dates[dates.length-1]||today();
+ document.getElementById('shareModal').classList.remove('hidden');
+}
+function closeShareOptions(){document.getElementById('shareModal').classList.add('hidden')}
+function sendSelectedReport(){
+ let j=getJob();if(!j)return;
+ let choices=[...document.querySelectorAll('.share-check:checked')].map(x=>x.value);
+ if(!choices.length)return toast('Marque pelo menos uma opção.');
+ let a=document.getElementById('shareStart').value,b=document.getElementById('shareEnd').value;
+ if(!a||!b||a>b)return toast('Confira as datas da quinzena.');
+ let period=x=>{let d=x.startDate||x.date;return d>=a&&d<=b};
+ let dailyPeriod=j.daily.filter(period),materialPeriod=(j.materials||[]).filter(period);
+ let sections=[],usedDaily=new Map(),usedMaterials=new Map(),usedCosts=new Map();
+ const sum=arr=>arr.reduce((v,x)=>v+(Number(x.total)||0),0);
+ const mark=(map,items)=>items.forEach((x,i)=>map.set(x.id??i,x));
+ const laborLines=items=>items.length?items.map(x=>'• '+x.workerName+': '+x.qty+' diária(s) × '+money(x.rate)+' = '+money(x.total)):['Nenhuma diária registrada.'];
+ const matLines=items=>items.length?items.map(x=>'• '+(x.date?dateBR(x.date)+' — ':'')+(x.phase||'Sem fase')+' / '+x.name+(x.mode==='invoice'?' (valor da nota)':' ('+x.qty+' '+(x.unit||'')+')')+' = '+money(x.total)):['Nenhum material registrado.'];
+ if(choices.includes('labor')){sections.push(['👷 RELATÓRIO DA QUINZENA — MÃO DE OBRA','Período: '+dateBR(a)+' a '+dateBR(b),...laborLines(dailyPeriod),'Subtotal: '+money(sum(dailyPeriod))].join('\n'));mark(usedDaily,dailyPeriod)}
+ if(choices.includes('material')){let items=j.materials||[];sections.push(['🧱 RELATÓRIO DE MATERIAL — GERAL',...matLines(items),'Subtotal: '+money(sum(items))].join('\n'));mark(usedMaterials,items)}
+ if(choices.includes('materialPeriod')){sections.push(['🧱 RELATÓRIO DE MATERIAL DA QUINZENA','Período: '+dateBR(a)+' a '+dateBR(b),...matLines(materialPeriod),'Subtotal: '+money(sum(materialPeriod))].join('\n'));mark(usedMaterials,materialPeriod)}
+ if(choices.includes('complete')){let items=j.materials||[];sections.push(['📋 RELATÓRIO COMPLETO — TODOS OS LANÇAMENTOS','MÃO DE OBRA',...laborLines(j.daily),'Subtotal mão de obra: '+money(sum(j.daily)),'','MATERIAIS',...matLines(items),'Subtotal materiais: '+money(sum(items)),'','OUTROS LANÇAMENTOS',...(j.costs.length?j.costs.map(x=>'• '+x.type+' — '+x.desc+': '+money(x.value)):['Nenhum outro lançamento.']),'Subtotal outros: '+money(j.costs.reduce((v,x)=>v+(Number(x.value)||0),0))].join('\n'));mark(usedDaily,j.daily);mark(usedMaterials,items);mark(usedCosts,j.costs)}
+ let total=sum([...usedDaily.values()])+sum([...usedMaterials.values()])+[...usedCosts.values()].reduce((v,x)=>v+(Number(x.value)||0),0);
+ let txt=['🏗️ JS CONSTRUÇÕES','Obra: '+j.name,'Data: '+new Date().toLocaleDateString('pt-BR'),'━━━━━━━━━━━━━━━━━━',sections.join('\n\n━━━━━━━━━━━━━━━━━━\n\n'),'━━━━━━━━━━━━━━━━━━','TOTAL DOS LANÇAMENTOS SELECIONADOS (SEM DUPLICAR): '+money(total),'','Transformando projetos em realidade.'].join('\n');
+ closeShareOptions();
+ if(navigator.share){navigator.share({title:'Relatório JS Construções — '+j.name,text:txt}).catch(e=>{if(e.name!=='AbortError')prompt('Copie o relatório:',txt)})}
+ else{window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank')||prompt('Copie o relatório:',txt)}
+}
+document.getElementById('dailyWorker').addEventListener('change',previewDaily);document.getElementById('dailyQty').addEventListener('input',previewDaily);document.getElementById('dailyRateOverride').addEventListener('input',previewDaily);document.getElementById('dailyDate').addEventListener('change',()=>{if(document.getElementById('dailyMode').value==='single')document.getElementById('dailyEndDate').value=document.getElementById('dailyDate').value});
+function previewDaily(){let j=getJob();if(!j)return;let w=j.workers.find(x=>x.id===Number(document.getElementById('dailyWorker').value)),q=Number(document.getElementById('dailyQty').value);let ov=document.getElementById('dailyRateOverride').value,rate=ov.trim()===''?w?.rate:Number(ov);document.getElementById('dailyPreview').textContent=w&&q>0&&Number.isFinite(rate)?`Total deste lançamento: ${money(rate*q)} (${q} × ${money(rate)}).`:'Selecione um trabalhador e a quantidade para calcular o total.'}
+toggleMaterialName();document.getElementById('matQty').addEventListener('input',materialPreview);document.getElementById('matPrice').addEventListener('input',materialPreview);document.getElementById('matInvoice').addEventListener('input',materialPreview);toggleMaterialMode();
+const PANEL_KEY='js_construcoes_panel_v21';
+const PANEL_NAMES={intro:'Apresentação e logomarca',summary:'Resumo financeiro',jobs:'Seleção de obras',actions:'Botões rápidos',chart:'Gráfico de gastos'};
+const PANEL_DEFAULT=['intro','summary','jobs','actions','chart'];
+let panelConfig=(()=>{try{let v=JSON.parse(localStorage.getItem(PANEL_KEY));return {order:PANEL_DEFAULT.filter(k=>v?.order?.includes(k)).sort((a,b)=>v.order.indexOf(a)-v.order.indexOf(b)),hidden:Array.isArray(v?.hidden)?v.hidden.filter(k=>PANEL_DEFAULT.includes(k)):[],accent:/^#[0-9a-f]{6}$/i.test(v?.accent||'')?v.accent:'#f5a914'};}catch(e){return {order:[...PANEL_DEFAULT],hidden:[],accent:'#f5a914'}}})();
+if(panelConfig.order.length!==PANEL_DEFAULT.length)panelConfig.order=[...new Set([...panelConfig.order,...PANEL_DEFAULT])];
+let panelEditing=false;
+function applyPanelLayout(){
+ const parent=document.getElementById('editableDashboard');if(!parent)return;
+ panelConfig.order.forEach(k=>{const node=parent.querySelector('[data-panel-block="'+k+'"]');if(node){parent.appendChild(node);node.classList.toggle('hidden',!panelEditing&&panelConfig.hidden.includes(k));node.classList.toggle('panel-editing',panelEditing);}});
+ document.documentElement.style.setProperty('--panel-accent',panelConfig.accent);
+ document.getElementById('panelAccent').value=panelConfig.accent;
+ renderPanelEditor();
+}
+function renderPanelEditor(){
+ const host=document.getElementById('panelEditorItems');if(!host)return;
+ host.innerHTML=panelConfig.order.map((k,i)=>`<div class="panel-edit-item" draggable="true" data-editor-key="${k}" ondragstart="panelDragStart(event,'${k}')" ondragover="event.preventDefault()" ondrop="panelDrop(event,'${k}')"><span class="drag-handle">☰</span><label><input type="checkbox" ${panelConfig.hidden.includes(k)?'':'checked'} onchange="togglePanelBlock('${k}',this.checked)"> ${PANEL_NAMES[k]}</label><button class="secondary small" onclick="movePanelBlock('${k}',-1)" ${i===0?'disabled':''}>↑</button><button class="secondary small" onclick="movePanelBlock('${k}',1)" ${i===panelConfig.order.length-1?'disabled':''}>↓</button></div>`).join('');
+}
+let draggingPanel=null;
+function panelDragStart(event,k){draggingPanel=k;event.dataTransfer.setData('text/plain',k);event.dataTransfer.effectAllowed='move'}
+function panelDrop(event,target){event.preventDefault();const source=draggingPanel||event.dataTransfer.getData('text/plain');if(!PANEL_DEFAULT.includes(source)||source===target)return;panelConfig.order.splice(panelConfig.order.indexOf(source),1);panelConfig.order.splice(panelConfig.order.indexOf(target),0,source);draggingPanel=null;applyPanelLayout()}
+function movePanelBlock(k,dir){const i=panelConfig.order.indexOf(k),j=i+dir;if(j<0||j>=panelConfig.order.length)return;[panelConfig.order[i],panelConfig.order[j]]=[panelConfig.order[j],panelConfig.order[i]];applyPanelLayout()}
+function togglePanelBlock(k,checked){panelConfig.hidden=panelConfig.hidden.filter(x=>x!==k);if(!checked)panelConfig.hidden.push(k);applyPanelLayout()}
+function setPanelAccent(c){panelConfig.accent=c;applyPanelLayout()}
+function togglePanelEditor(){panelEditing=!panelEditing;document.getElementById('panelEditor').classList.toggle('hidden',!panelEditing);document.getElementById('editPanelBtn').textContent=panelEditing?'✓ Finalizar edição':'✎ Editar painel';applyPanelLayout()}
+function savePanelLayout(){try{localStorage.setItem(PANEL_KEY,JSON.stringify(panelConfig));panelEditing=false;document.getElementById('panelEditor').classList.add('hidden');document.getElementById('editPanelBtn').textContent='✎ Editar painel';applyPanelLayout();toast('Painel personalizado e salvo!')}catch(e){toast('Não foi possível salvar a personalização.')}}
+function resetPanelLayout(){panelConfig={order:[...PANEL_DEFAULT],hidden:[],accent:'#f5a914'};applyPanelLayout();toast('Layout padrão restaurado. Clique em Salvar para manter.')}
+
+render();showBrandLogo();applyPanelLayout();
+</script>
+</body></html>
